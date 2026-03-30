@@ -1,6 +1,23 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUserByEmail, creatUser } from "../respositories/user.repository.js";
+import {
+  findUserByEmail,
+  creatUser,
+} from "../respositories/user.repository.js";
+
+const generateToken = (user) => {
+  const token = jwt.sign(
+    {
+      userId: user.id,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    },
+  );
+  return token;
+};
 
 export const registerUser = async (data) => {
   const existingUser = await findUserByEmail(data.email);
@@ -11,12 +28,25 @@ export const registerUser = async (data) => {
 
   const hashpassword = await bcrypt.hash(data.password, 10);
 
-  const user = await creatUser({
+  const createdUser = await creatUser({
     ...data,
     password: hashpassword,
   });
 
-  return user;
+  const token = generateToken(createdUser);
+
+  return {
+    user: {
+      id: createdUser.id,
+      name: createdUser.name,
+      email: createdUser.email,
+      role: createdUser.role,
+      position: createdUser.position,
+      createdAt: createdUser.createdAt,
+      assignments: createdUser.assignments,
+    },
+    token,
+  };
 };
 
 export const loginUser = async (data) => {
@@ -29,17 +59,18 @@ export const loginUser = async (data) => {
     throw new Error("Invalid Credentials");
   }
 
-  const token = jwt.sign(
-    {
-      userId: existingUser.id,
+  const token = generateToken(existingUser);
+
+  return {
+    user: {
+      id: existingUser.id,
+      name: existingUser.name,
+      email: existingUser.email,
       role: existingUser.role,
+      position: existingUser.position,
+      createdAt: existingUser.createdAt,
+      assignments: existingUser.assignments,
     },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1d",
-    },
-  );
-
-  return { existingUser, token };
+    token,
+  };
 };
-
