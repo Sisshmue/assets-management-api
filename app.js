@@ -1,8 +1,10 @@
-import prisma from "./src/configs/prisma.js";
+import expess from "express";
+import authRoutes from "./src/routes/user.route.js";
 
-async function test() {
-    const users = await prisma.user.findMany();
-    console.log(users);
-}
+const app = expess();
 
-test();
+app.use(expess.json());
+app.use("/auth", authRoutes);
+
+export default app;
+
