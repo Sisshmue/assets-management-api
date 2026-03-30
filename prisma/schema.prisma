@@ -11,3 +11,57 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role{
+  ADMIN
+  EMPLOYEE
+}
+
+enum AssetStatus{
+  AVAILABLE
+  ASSIGNED
+  MAINTENANCE
+  RETIRED
+}
+
+model User{
+  id Int @id @default(autoincrement()) 
+  name String
+  email String @unique
+  password String
+  position String
+  role Role
+  createdAt DateTime @default(now())
+  assignments AssetAssignment[]
+}
+
+model Asset{
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  serialNo String @unique
+  status AssetStatus
+  createdAt DateTime @default(now())
+  assetHistory AssetHistory[]
+  assignments AssetAssignment[]
+}
+
+model AssetAssignment{
+  id Int @id @default(autoincrement())
+  userId Int
+  assetId Int
+  assignAt DateTime @default(now())
+  returnAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+  asset Asset @relation(fields: [assetId], references: [id])
+}
+
+model AssetHistory{
+  id Int @id @default(autoincrement())
+  assetId Int
+  performedBy Int
+  createdAt   DateTime @default(now())
+
+  asset Asset @relation(fields: [assetId], references: [id])
+}
