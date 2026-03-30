@@ -17,4 +17,32 @@ route.get(
   AssetController.getAllAssets,
 );
 
+route.get(
+  "/find/:id",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.findAsset,
+);
+
+route.post(
+  "/update/:id",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.updateAsset,
+);
+
+route.delete(
+  "/delete/:id",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.deleteAsset,
+);
+
+route.get(
+  "/restore/:id",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.restoreAsset,
+);
+
 export default route;

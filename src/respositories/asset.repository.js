@@ -1,6 +1,9 @@
 import prisma from "../configs/prisma.js";
 
 export const createAssets = (data) => {
+  if (Array.isArray(data)) {
+    return prisma.asset.createManyAndReturn({ data, skipDuplicates: true });
+  }
   return prisma.asset.create({ data });
 };
 
