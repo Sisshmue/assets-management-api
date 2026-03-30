@@ -9,12 +9,8 @@ import jwt from "jsonwebtoken";
       });
     }
     const token = authHeader.split(" ")[1];
-    const verify = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verify) {
-      return res.status(400).json({
-        message: "Authentication acccess denied!",
-      });
-    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
   } catch (error) {
     res.status(400).json({
