@@ -43,7 +43,7 @@ export const updateAsset = async (req, res) => {
         message: "No Item found",
       });
     }
-    const updatedAsset = await AssetServices.updateAssetService(id, res.body);
+    const updatedAsset = await AssetServices.updateAssetService(id, req.body);
     res.status(200).json({
       asset: updatedAsset,
     });
