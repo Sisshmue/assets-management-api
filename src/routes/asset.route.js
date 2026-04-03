@@ -45,4 +45,11 @@ route.get(
   AssetController.restoreAsset,
 );
 
+route.post(
+  "/assign",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.assignAsset,
+);
+
 export default route;

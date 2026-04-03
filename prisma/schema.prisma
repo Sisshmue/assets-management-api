@@ -33,6 +33,7 @@ model User{
   role Role
   createdAt DateTime @default(now())
   assignments AssetAssignment[]
+  assetHistory AssetHistory[]
 }
 
 model Asset{
@@ -65,4 +66,5 @@ model AssetHistory{
   createdAt   DateTime @default(now())
 
   asset Asset @relation(fields: [assetId], references: [id])
+  user User @relation(fields: [performedBy], references: [id])
 }

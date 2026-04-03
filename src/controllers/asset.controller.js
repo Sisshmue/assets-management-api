@@ -98,3 +98,18 @@ export const restoreAsset = async (req, res) => {
     });
   }
 };
+
+export const assignAsset = async (req, res) => {
+  try {
+    const assetId = Number(req.body.assetId);
+    const userId = Number(req.body.userId);
+    const result = await AssetServices.assignAssetsService(assetId, userId);
+    res.status(200).json({
+      message: result.message,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
