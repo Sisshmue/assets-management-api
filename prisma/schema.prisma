@@ -22,6 +22,8 @@ enum AssetStatus{
   ASSIGNED
   MAINTENANCE
   RETIRED
+  PENDING
+  LOST
 }
 
 model User{
