@@ -67,6 +67,7 @@ model AssetHistory{
   assetId Int
   performedBy Int
   createdAt   DateTime @default(now())
+  returnAt DateTime?
 
   asset Asset @relation(fields: [assetId], references: [id])
   user User @relation(fields: [performedBy], references: [id])

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "AssetHistory" ALTER COLUMN "returnAt" DROP NOT NULL,
+ALTER COLUMN "returnAt" DROP DEFAULT;
