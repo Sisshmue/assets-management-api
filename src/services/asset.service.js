@@ -8,7 +8,7 @@ import {
   updateAsset,
 } from "../respositories/asset.repository.js";
 import prisma from "../configs/prisma.js";
-import { AssetStatus } from "../../generated/prisma/client.js";
+import { AssetStatus } from "../../generated/prisma/client.ts";
 
 export const createAssetsService = async (data) => {
   return await createAssets(data);
