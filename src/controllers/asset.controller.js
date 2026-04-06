@@ -13,7 +13,9 @@ export const createAsset = async (req, res) => {
 
 export const getAllAssets = async (req, res) => {
   try {
-    const allAssets = await AssetServices.getAllAssetsService();
+     const page = Number(req.body.page) || 1;
+    const limit =Number( req.body.limit) || 10;
+    const allAssets = await AssetServices.getAllAssetsService(page, limit);
     res.status(200).json(allAssets);
   } catch (error) {
     res.status(404).json({
@@ -38,7 +40,9 @@ export const findAssetWithKeyword = async (req, res) => {
   try {
     const name = req.body.name;
     const status = req.body.status;
-    const assets = await AssetServices.findAssetWithStatusService(name, status);
+    const page = Number(req.body.page) || 1;
+    const limit =Number( req.body.limit) || 10;
+    const assets = await AssetServices.findAssetWithStatusService(name, status, page, limit);
     res.status(200).json({
       assets,
     });
@@ -131,8 +135,9 @@ export const assignAsset = async (req, res) => {
 
 export const returnAsset = async (req, res) => {
   try {
-    const assetId = Number(req.body.id);
-    await AssetServices.returnAssetService(assetId);
+    const assetId = Number(req.body.assetId);
+    const userId = Number(req.body.userId)
+    await AssetServices.returnAssetService(userId, assetId);
     res.status(200).json({
       message: "Asset returned successfully",
     });

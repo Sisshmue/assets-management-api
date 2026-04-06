@@ -7,9 +7,11 @@ export const createAssets = (data) => {
   return prisma.asset.create({ data });
 };
 
-export const getAllAssets = () => {
+export const getAllAssets = (page, limit) => {
   return prisma.asset.findMany({
     where: { isDeleted: false },
+    skip: (page - 1) * limit,
+    take: limit,
   });
 };
 
@@ -19,12 +21,15 @@ export const findAsset = (id) => {
   });
 };
 
-export const findAssetWithStatus = (name, status) => {
+export const findAssetWithStatus = (name, status, page, limit) => {
   return prisma.asset.findMany({
     where: {
+      isDeleted: false,
       ...(name && { name: { contains: name, mode: "insensitive" } }),
       ...(status && { status }),
     },
+    skip: (page - 1) * limit,
+    take: limit,
   });
 };
 
@@ -50,14 +55,5 @@ export const restoreAsset = (id) => {
       isDeleted: false,
     },
     where: { id },
-  });
-};
-
-export const returnAsset = (id) => {
-  return prisma.asset.update({
-    where: { id },
-    data: {
-      status: "PENDING",
-    },
   });
 };
