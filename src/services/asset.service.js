@@ -2,8 +2,10 @@ import {
   createAssets,
   deleteAsset,
   findAsset,
+  findAssetWithStatus,
   getAllAssets,
   restoreAsset,
+  returnAsset,
   updateAsset,
 } from "../respositories/asset.repository.js";
 import prisma from "../configs/prisma.js";
@@ -19,6 +21,12 @@ export const getAllAssetsService = async () => {
 export const findAssetService = async (id) => {
   return await findAsset(id);
 };
+
+
+export const findAssetWithStatusService = async(name, status)=>{
+  return await findAssetWithStatus(name, status);
+}
+
 
 export const updateAssetService = async (id, data) => {
   return await updateAsset(id, data);
@@ -71,3 +79,7 @@ export const assignAssetsService = async (assetId, userId) => {
     return { message: "Asset assigned successfully" };
   });
 };
+
+export const returnAssetService = async (id)=>{
+  return await returnAsset(id);
+}

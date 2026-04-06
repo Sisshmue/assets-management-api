@@ -24,6 +24,13 @@ route.get(
   AssetController.findAsset,
 );
 
+route.get(
+  "/find",
+  authMiddleWare,
+  checkRole("ADMIN"),
+  AssetController.findAssetWithKeyword,
+);
+
 route.post(
   "/update/:id",
   authMiddleWare,
@@ -51,5 +58,7 @@ route.post(
   checkRole("ADMIN"),
   AssetController.assignAsset,
 );
+
+route.post("/return", authMiddleWare, AssetController.returnAsset);
 
 export default route;

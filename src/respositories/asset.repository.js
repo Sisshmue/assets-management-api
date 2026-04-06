@@ -19,6 +19,15 @@ export const findAsset = (id) => {
   });
 };
 
+export const findAssetWithStatus = (name, status) => {
+  return prisma.asset.findMany({
+    where: {
+      ...(name && { name: { contains: name, mode: "insensitive" } }),
+      ...(status && { status }),
+    },
+  });
+};
+
 export const updateAsset = (id, data) => {
   return prisma.asset.update({
     data,
@@ -41,5 +50,14 @@ export const restoreAsset = (id) => {
       isDeleted: false,
     },
     where: { id },
+  });
+};
+
+export const returnAsset = (id) => {
+  return prisma.asset.update({
+    where: { id },
+    data: {
+      status: "PENDING",
+    },
   });
 };

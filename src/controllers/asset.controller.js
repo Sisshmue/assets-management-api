@@ -34,6 +34,21 @@ export const findAsset = async (req, res) => {
   }
 };
 
+export const findAssetWithKeyword = async (req, res) => {
+  try {
+    const name = req.body.name;
+    const status = req.body.status;
+    const assets = await AssetServices.findAssetWithStatusService(name, status);
+    res.status(200).json({
+      assets,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 export const updateAsset = async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -106,6 +121,20 @@ export const assignAsset = async (req, res) => {
     const result = await AssetServices.assignAssetsService(assetId, userId);
     res.status(200).json({
       message: result.message,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+export const returnAsset = async (req, res) => {
+  try {
+    const assetId = Number(req.body.id);
+    await AssetServices.returnAssetService(assetId);
+    res.status(200).json({
+      message: "Asset returned successfully",
     });
   } catch (error) {
     res.status(400).json({
